@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, Space, Switch, Table, Tag} from 'antd';
+import {Button, Switch, Table} from 'antd';
 import UploadComponent from "./UploadComponent";
 import {LoadingOutlined, ImportOutlined} from "@ant-design/icons";
 import CleanCSVComponent from "./CleanCSVComponent";
 
-const { Column, ColumnGroup } = Table;
 
 const CompletCSVComponent = (res) => {
     const [array, setArray] = useState([]);
@@ -59,14 +58,32 @@ const CompletCSVComponent = (res) => {
         },
         {
             title: 'TWA',
-            dataIndex: '6'
-        },
-        {
-            title: 'UpVMG',
-            dataIndex: '7'
+            dataIndex: '6',
+            render(text, record) {
+                const previousRecord = array[array.indexOf(record) - 1];
+                if (previousRecord) {
+                    return {
+                        props: {
+                            style: { background: (text/(-Math.abs(text))) !== (previousRecord[6]/(-Math.abs(previousRecord[6]))) ? '#e06666' : '#ffffff' },
+                        },
+                        children: <div>{text}</div>,
+                    };
+                } else {
+                    return {
+                        props: {
+                            style: { background: '#ffffff' },
+                        },
+                        children: <div>{text}</div>,
+                    };
+                }
+            },
         },
         {
             title: 'DownVMG',
+            dataIndex: '7'
+        },
+        {
+            title: 'UpVMG',
             dataIndex: '8'
         },
         {
@@ -91,11 +108,38 @@ const CompletCSVComponent = (res) => {
         },
         {
             title: 'Voile',
-            dataIndex: '14'
+            dataIndex: '14',
+            render(text, record) {
+                const previousRecord = array[array.indexOf(record) - 1];
+                if (previousRecord) {
+                    return {
+                        props: {
+                            style: { background: text !== previousRecord[14] ? '#e06666' : '#ffffff' },
+                        },
+                        children: <div>{text}</div>,
+                    };
+                } else {
+                    return {
+                        props: {
+                            style: { background: '#ffffff' },
+                        },
+                        children: <div>{text}</div>,
+                    };
+                }
+
+            },
         },
         {
             title: 'EffetBoost',
-            dataIndex: '15'
+            dataIndex: '15',
+            render(text, record) {
+                return {
+                    props: {
+                        style: { background: parseInt(text) > 0 ? '#fce5cd' : '#ffffff' },
+                    },
+                    children: <div>{text}</div>,
+                };
+            },
         },
         {
             title: 'DureeChangementVoile',
@@ -127,7 +171,15 @@ const CompletCSVComponent = (res) => {
         },
         {
             title: 'Energie',
-            dataIndex: '23'
+            dataIndex: '23',
+            render(text, record) {
+                return {
+                    props: {
+                        style: { background: parseInt(text) > 80 ? '#46ff00' : parseInt(text) > 60 ? '#cdff00' : parseInt(text) > 40 ? '#ffed00' : parseInt(text) > 20 ? '#ff7d00' : '#ff0000' },
+                    },
+                    children: <div>{text}</div>,
+                };
+            },
         }
     ];
 

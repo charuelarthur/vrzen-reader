@@ -1,14 +1,12 @@
-import react, {useState} from 'react';
+import {useState} from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import CleanCSVComponent from "./CleanCSVComponent";
 
-const getBase64 = (img, callback) => {
+const getBase64 = (file, callback) => {
     const reader = new FileReader();
-    console.log('test', reader);
     reader.addEventListener('load', () => callback(reader.result));
-    const text = reader.readAsText(img);
-    console.log(text);
+    reader.readAsText(file);
 };
 
 const beforeUpload = (file) => {
@@ -20,14 +18,11 @@ const beforeUpload = (file) => {
     return isCSV;
 };
 
-const UploadComponent = (onChange) => {
+const UploadComponent = () => {
     const [file, setFile] = useState();
     const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
 
     const handleChange = (info) => {
-            // Get value from info
-            console.log(info.file);
 
             getBase64(info.file.originFileObj, (url) => {
                 setLoading(false);
@@ -44,7 +39,7 @@ const UploadComponent = (onChange) => {
                     marginTop: 8,
                 }}
             >
-                Import csv Vrzen
+                Import csv VRZEN
             </div>
         </div>
     );
