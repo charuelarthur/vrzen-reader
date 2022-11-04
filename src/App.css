@@ -38,3 +38,16 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  max-height: 100vh;
+}
+
+.ant-upload-picture-card-wrapper {
+  margin-top: 10%;
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  width: 300px;
+  height: 300px;
+}

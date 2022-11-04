@@ -1,8 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState } from "react";
-import { Space, Table, Tag } from 'antd';
+import { Space, Table, Tag, Button } from 'antd';
+import UploadComponent from "./component/UploadComponent";
 const { Column, ColumnGroup } = Table;
+
 
 function App() {
     const [file, setFile] = useState();
@@ -11,6 +13,7 @@ function App() {
     const fileReader = new FileReader();
 
     const handleOnChange = (e) => {
+        console.log(e);
         setFile(e.target.files[0]);
     };
 
@@ -41,7 +44,7 @@ function App() {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
+        console.log(e);
         if (file) {
             fileReader.onload = function (event) {
                 const text = event.target.result;
@@ -52,77 +55,13 @@ function App() {
         }
     };
 
-    const columns = [
-        {
-            title: 'DateHeure',
-            dataIndex: '0'
-        },
-        {
-            title: 'HDG',
-            dataIndex: '1'
-        },
-        {
-            title: 'TWA',
-            dataIndex: '2'
-        },
-        {
-            title: 'UpVMG',
-            dataIndex: '3'
-        },
-        {
-            title: 'DownVMG',
-            dataIndex: '4'
-        },
-        {
-            title: 'SPEED(kt)',
-            dataIndex: '5'
-        },
-        {
-            title: 'TWD',
-            dataIndex: '6'
-        },
-        {
-            title: 'TWS(kt)',
-            dataIndex: '7'
-        },
-        {
-            title: 'Voile',
-            dataIndex: '8'
-        },
-        {
-            title: 'EffetBoost',
-            dataIndex: '9'
-        },
-        {
-            title: 'Energie',
-            dataIndex: '10'
-        }
-    ];
+
 
     return (
         <div style={{ textAlign: "center" }}>
             <h1>VRZEN READER</h1>
-            <form>
-                <input
-                    type={"file"}
-                    id={"csvFileInput"}
-                    accept={".csv"}
-                    onChange={handleOnChange}
-                />
-
-                <button
-                    onClick={(e) => {
-                        handleOnSubmit(e);
-                    }}
-                >
-                    IMPORT CSV
-                </button>
-            </form>
-
             <br />
-
-            <Table columns={columns} dataSource={array} />
-
+            <UploadComponent />
         </div>
     );
 }
