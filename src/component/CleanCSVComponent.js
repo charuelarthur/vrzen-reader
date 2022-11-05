@@ -5,14 +5,14 @@ import {LoadingOutlined, ImportOutlined, SearchOutlined} from "@ant-design/icons
 import CompletCSVComponent from "./CompletCSVComponent";
 
 
-const CleanCSVComponent = (res) => {
+const CleanCSVComponent = (props) => {
     const [array, setArray] = useState([]);
     const [imported, setImported] = useState(false);
     const [checked, setChecked] = useState(false);
 
     const cleanCSV = () => {
-        if (res) {
-            const file = res.file;
+        if (props.fileResult) {
+            const file = props.fileResult;
             let arrayTmp = [];
             let array = [];
             let tmpTWA = -1;
@@ -33,15 +33,14 @@ const CleanCSVComponent = (res) => {
                     array.push(arrayTmp[i]);
                 }
             }
-
             setArray(array);
         }
     }
 
     useEffect(() => {
         cleanCSV();
-    }
-    , [res]);
+        //log nameFile
+    }, [props.fileResult]);
 
     const columns = [
         {
@@ -152,7 +151,7 @@ const CleanCSVComponent = (res) => {
 
     return (
         <div>
-            {(checked) ? ( <CompletCSVComponent file={res.file} /> ) : (
+            {(checked) ? ( <CompletCSVComponent {...props} /> ) : (
              (imported) ? ( <UploadComponent/> ) : (
             ( array.length > 0 ) ? (
             <div>
@@ -164,6 +163,7 @@ const CleanCSVComponent = (res) => {
                     }
                 }>
                     <Switch defaultChecked onChange={onChange} checkedChildren="Simplifié" unCheckedChildren="Complet"/>
+                    <h3>{props.nameFile}</h3>
                     <Button type="primary" shape="round" icon={<ImportOutlined />} size={'medium'} onClick={onImport}>
                         Nouvel import
                     </Button>

@@ -5,7 +5,7 @@ import CleanCSVComponent from "./CleanCSVComponent";
 
 const getBase64 = (file, callback) => {
     const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
+    reader.addEventListener('load', () => callback(reader.result, file.name));
     reader.readAsText(file);
 };
 
@@ -20,13 +20,15 @@ const beforeUpload = (file) => {
 
 const UploadComponent = () => {
     const [file, setFile] = useState();
+    const [nameFile, setNameFile] = useState();
     const [loading, setLoading] = useState(false);
 
     const handleChange = (info) => {
 
-            getBase64(info.file.originFileObj, (url) => {
+            getBase64(info.file.originFileObj, (result, name) => {
                 setLoading(false);
-                setFile(url);
+                setFile(result);
+                setNameFile(name);
             });
 
     };
@@ -44,10 +46,15 @@ const UploadComponent = () => {
         </div>
     );
 
+    let props = {
+        fileResult : file,
+        nameFile : nameFile
+    }
+
     return (
         <div>
         {file ? (
-                <CleanCSVComponent file={file} />
+                <CleanCSVComponent {...props} />
             ) : (
         <Upload
             accept={".csv"}
