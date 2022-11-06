@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Switch, Table} from 'antd';
 import UploadComponent from "./UploadComponent";
-import {LoadingOutlined, ImportOutlined, SearchOutlined} from "@ant-design/icons";
+import {LoadingOutlined, ImportOutlined, CopyOutlined} from "@ant-design/icons";
 import CompletCSVComponent from "./CompletCSVComponent";
 
 
@@ -59,14 +59,14 @@ const CleanCSVComponent = (props) => {
                 if (previousRecord) {
                     return {
                         props: {
-                            style: { background: (text/(-Math.abs(text))) !== (previousRecord[2]/(-Math.abs(previousRecord[2]))) ? '#e06666' : '#ffffff' },
+                            style: { background: (text/(-Math.abs(text))) !== (previousRecord[2]/(-Math.abs(previousRecord[2]))) ? '#e06666' : '' },
                         },
                         children: <div>{text}</div>,
                     };
                 } else {
                     return {
                         props: {
-                            style: { background: '#ffffff' },
+                            style: { background: '' },
                         },
                         children: <div>{text}</div>,
                     };
@@ -101,7 +101,7 @@ const CleanCSVComponent = (props) => {
                 if (previousRecord) {
                     return {
                         props: {
-                            style: { background: text !== previousRecord[8] ? '#e06666' : '#ffffff' },
+                            style: { background: text !== previousRecord[8] ? '#e06666' : '' },
                         },
                         children: <div>{text}</div>,
                     };
@@ -121,7 +121,7 @@ const CleanCSVComponent = (props) => {
             render(text, record) {
                 return {
                     props: {
-                        style: { background: parseInt(text) > 0 ? '#fce5cd' : '#ffffff' },
+                        style: { background: parseInt(text) > 0 ? '#fce5cd' : '' },
                     },
                     children: <div>{text}</div>,
                 };
@@ -147,7 +147,11 @@ const CleanCSVComponent = (props) => {
 
    const onImport = () => {
         setImported(true);
-    }
+   };
+
+   const copyCSV = () => {
+       navigator.clipboard.writeText(props.fileResult).then(r => console.log(r));
+   }
 
     return (
         <div>
@@ -164,9 +168,14 @@ const CleanCSVComponent = (props) => {
                 }>
                     <Switch defaultChecked onChange={onChange} checkedChildren="Simplifié" unCheckedChildren="Complet"/>
                     <h3>{props.nameFile}</h3>
-                    <Button type="primary" shape="round" icon={<ImportOutlined />} size={'medium'} onClick={onImport}>
-                        Nouvel import
-                    </Button>
+                    <div>
+                        <Button type="primary" shape="round" icon={<CopyOutlined />} size={'medium'} onClick={copyCSV} style={{marginRight:"10px"}}>
+                            Copier CSV
+                        </Button>
+                        <Button type="primary" shape="round" icon={<ImportOutlined />} size={'medium'} onClick={onImport}>
+                            Nouvel import
+                        </Button>
+                    </div>
                 </div>
                 <Table dataSource={array} columns={columns} />
             </div>

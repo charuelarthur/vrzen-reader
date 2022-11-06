@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Switch, Table} from 'antd';
 import UploadComponent from "./UploadComponent";
-import {LoadingOutlined, ImportOutlined} from "@ant-design/icons";
+import {LoadingOutlined, ImportOutlined, CopyOutlined} from "@ant-design/icons";
 import CleanCSVComponent from "./CleanCSVComponent";
 
 
@@ -64,7 +64,7 @@ const CompletCSVComponent = (props) => {
                 if (previousRecord) {
                     return {
                         props: {
-                            style: { background: (text/(-Math.abs(text))) !== (previousRecord[6]/(-Math.abs(previousRecord[6]))) ? '#e06666' : '#ffffff' },
+                            style: { background: (text/(-Math.abs(text))) !== (previousRecord[6]/(-Math.abs(previousRecord[6]))) ? '#e06666' : '' },
                         },
                         children: <div>{text}</div>,
                     };
@@ -114,7 +114,7 @@ const CompletCSVComponent = (props) => {
                 if (previousRecord) {
                     return {
                         props: {
-                            style: { background: text !== previousRecord[14] ? '#e06666' : '#ffffff' },
+                            style: { background: text !== previousRecord[14] ? '#e06666' : '' },
                         },
                         children: <div>{text}</div>,
                     };
@@ -135,7 +135,7 @@ const CompletCSVComponent = (props) => {
             render(text, record) {
                 return {
                     props: {
-                        style: { background: parseInt(text) > 0 ? '#fce5cd' : '#ffffff' },
+                        style: { background: parseInt(text) > 0 ? '#fce5cd' : '' },
                     },
                     children: <div>{text}</div>,
                 };
@@ -191,6 +191,10 @@ const CompletCSVComponent = (props) => {
         setImported(true);
     }
 
+    const copyCSV = () => {
+        navigator.clipboard.writeText(props.fileResult).then(r => console.log(r));
+    }
+
     return (
         <div>
             {(checked) ? ( <CleanCSVComponent {...props} /> ) : (
@@ -206,9 +210,14 @@ const CompletCSVComponent = (props) => {
                         }>
                             <Switch defaultUnChecked onChange={onChange} checkedChildren="Simplifié" unCheckedChildren="Complet"/>
                             <h3>{props.nameFile}</h3>
-                            <Button type="primary" shape="round" icon={<ImportOutlined />} size={'medium'} onClick={onImport}>
-                                Nouvel import
-                            </Button>
+                            <div>
+                                <Button type="primary" shape="round" icon={<CopyOutlined />} size={'medium'} onClick={copyCSV} style={{marginRight:"10px"}}>
+                                    Copier CSV
+                                </Button>
+                                <Button type="primary" shape="round" icon={<ImportOutlined />} size={'medium'} onClick={onImport}>
+                                    Nouvel import
+                                </Button>
+                            </div>
                         </div>
                         <Table dataSource={array} columns={columns} pagination={{ pageSize: 8 }} scroll={{ x: 2500}}/>
                     </div>
