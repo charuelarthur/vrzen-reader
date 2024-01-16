@@ -2,7 +2,7 @@ import './App.css';
 import React from "react";
 import UploadComponent from "./component/UploadComponent";
 import { inject } from '@vercel/analytics';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import {SpeedInsights} from "@vercel/speed-insights/react";
 
 function App() {
     inject();
