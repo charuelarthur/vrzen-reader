@@ -21,7 +21,7 @@ const CleanCSVComponent = (props) => {
             const csvRows = file.slice(file.indexOf("\n") + 1).split("\n");
             for (let i = 0; i < csvRows.length; i++) {
                 arrayTmp[i] = csvRows[i].split(";");
-                arrayTmp[i].splice(16, 7);
+                arrayTmp[i].splice(17, 7);
                 arrayTmp[i].splice(13, 2);
                 arrayTmp[i].splice(7, 1);
                 arrayTmp[i].splice(2, 3);
